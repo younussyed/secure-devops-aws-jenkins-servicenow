@@ -1,0 +1,27 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Environment Check') {
+            steps {
+                sh 'echo "Running on Jenkins agent..."'
+                sh 'uname -a'
+                sh 'whoami'
+            }
+        }
+
+        stage('Tool Versions') {
+            steps {
+                sh 'terraform -version || echo "Terraform not installed yet"'
+                sh 'aws --version || echo "AWS CLI not installed yet"'
+                sh 'docker --version || echo "Docker not installed yet"'
+            }
+        }
+    }
+}
